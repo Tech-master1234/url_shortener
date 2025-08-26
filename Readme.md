@@ -31,7 +31,7 @@ A simple URL shortener web application built with Flask.
     env\Scripts\activate
     ```
     **Linux/Mac**
-        ```bash
+    ```bash
     python3 -m venv env
     env/bin/activate
     ```
