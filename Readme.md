@@ -22,13 +22,18 @@ A simple URL shortener web application built with Flask.
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/Tech-master1234/url_shortener.git
     ```
 
-2.  **Create a virtual environment and activate it:**
+2.  **Create a virtual environment and activate it:Windows**
     ```bash
     python -m venv env
     env\Scripts\activate
+    ```
+    **Linux/Mac**
+        ```bash
+    python3 -m venv env
+    env/bin/activate
     ```
 
 3.  **Install the dependencies:**
