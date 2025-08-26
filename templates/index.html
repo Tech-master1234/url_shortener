@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Stronger Digital Connections</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: #4CAF50;
+            padding-top: 80px; /* Added padding to avoid overlap */
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 620px;
+            background: transparent;
+            border: 2px solid rgba(0, 0, 0, .2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            color: #333;
+            border-radius: 10px;
+            padding: 30px 40px;
+        }
+
+        .wrapper h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            margin: 30px 0;
+        }
+
+        .input-box input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, .2);
+            border-radius: 40px;
+            font-size: 16px;
+            color: #333;
+            padding: 20px 45px 20px 20px;
+        }
+
+        .input-box input::placeholder {
+            color: #333;
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 45px;
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .flashes {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .flashes li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            color: #333; /* Default text color for flashes */
+        }
+
+        .flashes .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .flashes .error {
+            background-color: #ffffffff;
+            color: #000000ff;
+        }
+
+        .header-links {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .header-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-links a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .wrapper h1 {
+                font-size: 28px;
+            }
+
+            .header-links {
+                justify-content: flex-end;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-links">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('my_urls') }}">My URLs</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </div>
+
+    <div class="wrapper">
+        <h1>Shorten Your URL</h1>
+        <form action="{{ url_for('shorten_url') }}" method="post">
+            <div class="input-box">
+                <input type="text" id="long-link" name="long_url" placeholder="Paste your long link here" required>
+                <i class='bx bx-link'></i>
+            </div>
+            <div class="input-box">
+                <input type="number" name="usage_limit" placeholder="Usage limit (optional)">
+                <i class='bx bx-bar-chart-alt-2'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password (optional)">
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn">
+                {% if current_user.is_authenticated %}
+                    Shorten URL
+                {% else %}
+                    Get your link for free
+                {% endif %}
+            </button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message|safe }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
